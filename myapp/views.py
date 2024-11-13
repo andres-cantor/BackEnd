@@ -2,10 +2,10 @@ from django.shortcuts import render
 # app/views.py
 
 from rest_framework import viewsets
-from .models import Producto, Foro, Foro_Participacion, Informe_Proyecto
+from .models import usuario, Foro, Foro_Participacion, Informe_Proyecto
 from .serializer import usuarioSerializer, ForoSerializer, Foro_ParticipacionSerializer, Informe_ProyectoSerializer
 class usuarioViewSet(viewsets.ModelViewSet):
-    queryset = Producto.objects.all()
+    queryset = usuario.objects.all()
     serializer_class = usuarioSerializer
 
 class ForoViewSet(viewsets.ModelViewSet):
