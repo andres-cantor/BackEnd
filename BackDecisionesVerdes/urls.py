@@ -1,27 +1,15 @@
-# app/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from myapp.views import usuarioViewSet, ForoViewSet, Foro_ParticipacionViewSet, Informe_ProyectoViewSet
-
-# Crear el router y registrar las vistas
-router = DefaultRouter()
-router.register(r'usuario', usuarioViewSet, basename='usuario')
-router.register(r'foros', ForoViewSet, basename='foros')
-router.register(r'foro-participaciones', Foro_ParticipacionViewSet, basename='foro-participaciones')
-router.register(r'informe-proyectos', Informe_ProyectoViewSet, basename='informe-proyectos')
-
-# Incluir las rutas del router
-urlpatterns = [
-    path('', include(router.urls)),
-]
-
-# project/urls.py
-
+# BackDecisionesVerdes/urls.py
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('app.urls')),  # Asegúrate de cambiar 'app' por el nombre real de tu aplicación
+    path('api/', include('myapp.urls')),  # Incluye las rutas de la API aquí
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),  # Genera el esquema de la API
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # Accede a la documentación
+
+    # Redirige la ruta raíz a la documentación (swagger-ui)
+    path('', RedirectView.as_view(url='/docs/', permanent=False)),  # Redirige a /docs
 ]
